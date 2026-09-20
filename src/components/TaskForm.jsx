@@ -5,7 +5,7 @@ export default function TaskForm() {
 
   const [title, setTitle] = useState("")
   const [descripcion, setDescription] = useState("")
-  const { createTask } = useContext(TaskContext)
+  const { createTask, saveTasks } = useContext(TaskContext)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -34,9 +34,16 @@ export default function TaskForm() {
         value={descripcion}
         className="bg-slate-300 p-3 w-full mb-2"
         ></textarea>
-        <button className="bg-indigo-500 px-3 py1 text-white rounded-md">
-            Guardar
+        <button type="submit" className="bg-indigo-500 px-4 py-2 text-white rounded-md hover:bg-indigo-300">
+            Agregar
         </button>
+        <button
+        type="button"
+        onClick={saveTasks}
+        className="bg-green-500 px-4 py-2 text-white rounded-md hover:bg-green-400 mt-4 m-2">
+          Guardar cambios
+        </button>
+
       </form>
     </div>
   )
