@@ -10,5 +10,5 @@ export default defineConfig({
     tailwindcss(),
     babel({ presets: [reactCompilerPreset()] })
   ],
-  base:'/<react-Agenda-de-tareas>/'
+  base:'/react-Agenda-de-tareas/'
 })
