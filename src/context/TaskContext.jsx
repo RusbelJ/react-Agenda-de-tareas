@@ -1,42 +1,55 @@
 import { createContext, useState, useEffect } from "react"
+import { db } from "../firebase"
+import {
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc
+} from "firebase/firestore"
 
 export const TaskContext = createContext()
 
-const API_URL = "http://localhost:3001/api/tasks"
+const tasksCollection = collection(db, "tasks")
 
 export function TaskContextProvider(props) {
   const [task, setTask] = useState([])
 
-  function createTask(tarea) {
-    setTask([...task, {
-      title: tarea.title,
-      id: task.length,
-      descripcion: tarea.descripcion
-    }])
-  }
-
-  function deliteTask(taskId) {
-    setTask(task.filter(task => task.id !== taskId))
+  async function loadTasks() {
+    try {
+      const snapshot = await getDocs(tasksCollection)
+      const tasksFromDb = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      setTask(tasksFromDb)
+    } catch (err) {
+      console.error("Error cargando tareas:", err)
+    }
   }
 
   useEffect(() => {
-    fetch(API_URL)
-      .then(res => res.json())
-      .then(data => setTask(data))
-      .catch(err => console.error("Error cargando tareas:", err))
+    loadTasks()
   }, [])
 
-  async function saveTasks() {
+  async function createTask(tarea) {
     try {
-      await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(task)
+      await addDoc(tasksCollection, {
+        title: tarea.title,
+        descripcion: tarea.descripcion
       })
-      alert("Tareas guardadas correctamente")
+      loadTasks()
     } catch (err) {
-      console.error("Error guardando tareas:", err)
-      alert("Ocurrió un error al guardar")
+      console.error("Error creando tarea:", err)
+    }
+  }
+
+  async function deliteTask(taskId) {
+    try {
+      await deleteDoc(doc(db, "tasks", taskId))
+      loadTasks()
+    } catch (err) {
+      console.error("Error eliminando tarea:", err)
     }
   }
 
@@ -44,8 +57,7 @@ export function TaskContextProvider(props) {
     <TaskContext.Provider value={{
       task,
       deliteTask,
-      createTask,
-      saveTasks
+      createTask
     }}>
       {props.children}
     </TaskContext.Provider>

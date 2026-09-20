@@ -1,15 +1,14 @@
-import { useState,useContext } from "react"
+import { useState, useContext } from "react"
 import { TaskContext } from "../context/TaskContext"
 
 export default function TaskForm() {
 
   const [title, setTitle] = useState("")
   const [descripcion, setDescription] = useState("")
-  const { createTask, saveTasks } = useContext(TaskContext)
+  const { createTask } = useContext(TaskContext)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(title,descripcion)
     createTask({
       title,
       descripcion
@@ -17,7 +16,6 @@ export default function TaskForm() {
     setTitle('')
     setDescription('')
   }
-
 
   return (
     <div className="max-w-md mx-auto">
@@ -34,16 +32,11 @@ export default function TaskForm() {
         value={descripcion}
         className="bg-slate-300 p-3 w-full mb-2"
         ></textarea>
-        <button type="submit" className="bg-indigo-500 px-4 py-2 text-white rounded-md hover:bg-indigo-300">
+        <button
+        type="submit"
+        className="bg-indigo-500 px-4 py-2 text-white rounded-md hover:bg-indigo-300">
             Agregar
         </button>
-        <button
-        type="button"
-        onClick={saveTasks}
-        className="bg-green-500 px-4 py-2 text-white rounded-md hover:bg-green-400 mt-4 m-2">
-          Guardar cambios
-        </button>
-
       </form>
     </div>
   )
