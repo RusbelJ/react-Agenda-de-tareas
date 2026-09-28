@@ -1,15 +1,14 @@
-import TaskList from './components/TaskList'
-import TaskForm from './components/TaskForm'
-
-import { useState,useEffect } from 'react'
+import { useState } from 'react'
+import { Registrar } from './components/Registrar.jsx'
+import { CrearTarea } from './components/CrearTarea.jsx'
 
 export default function App() {
+  const [pantalla, setPantalla] = useState("registrar")
+
   return (
-    <div className='bg-zinc-900 h-screen'>
-      <div className='container m-auto p-10'>
-        <TaskList></TaskList>
-      <TaskForm></TaskForm>
-      </div>
+    <div>
+      {pantalla === "registrar" && <Registrar onFinalizar={() => setPantalla("tareas")} />}
+      {pantalla === "tareas" && <CrearTarea />}
     </div>
   )
 }
