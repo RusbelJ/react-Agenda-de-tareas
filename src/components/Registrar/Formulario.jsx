@@ -1,20 +1,31 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { UsuarioAutentificacion } from "../../context/ContextUsuarios"
 
-export function Formulario({onFinalizar}){
+export function Formulario({onFinalizar, onIniciar}){
     const [nombreUsuario, setNombreUsuario] = useState("")
     const [correo, setCorreo] = useState("")
     const [contrasena, setContrasena] = useState("")
+    const enviandoRef = useRef(false)
     //Es importante que al ejecutar esta funcion sea despues de los use State porque esta utiliza el use context
-    const { registrar, error, cargando } = UsuarioAutentificacion()
+    const { registrar, cargando, setCargando } = UsuarioAutentificacion()
+
+    const ocupado = cargando
 
     const enviarUsuario = async (e) => {
-        e.preventDefault()
-        const exito = await registrar(nombreUsuario, correo, contrasena)
-        if (exito) {
-            onFinalizar()
-        }
+    e.preventDefault()
+    if (enviandoRef.current) return   // bloquea doble clic inmediato
+
+    enviandoRef.current = true
+    setCargando(true)                 // desactiva el botón en el siguiente render
+
+    try {
+      const exito = await registrar(nombreUsuario, correo, contrasena)
+      if (exito) onFinalizar()
+    } finally {
+      enviandoRef.current = false
+      setCargando(false)
     }
+  }
 
     return(<div className="w-full">
         <form className="" onSubmit={enviarUsuario}>
@@ -23,7 +34,7 @@ export function Formulario({onFinalizar}){
             <input placeholder="Ingresa un usuario" 
             className="w-full bg-blue-200 ml-3 mr-3 rounded-md"
             value={nombreUsuario}
-            disabled={cargando}
+            disabled={ocupado}
             onChange={(e) => setNombreUsuario(e.target.value)}
             ></input>
             <label className="ml-3 text-xs text-white ">Correo electronico</label>
@@ -31,7 +42,7 @@ export function Formulario({onFinalizar}){
             className="w-full bg-blue-200 ml-3 mr-3 rounded-md"
             type="email"
             value={correo}
-            disabled={cargando}
+            disabled={ocupado}
             onChange={(e) => setCorreo(e.target.value)}
             ></input>
             <label className="ml-3 text-xs text-white ">Contraseña</label>
@@ -39,23 +50,19 @@ export function Formulario({onFinalizar}){
             className="w-full bg-blue-200 ml-3 mr-3 mb-10 rounded-md"
             type="password"
             value={contrasena}
-            disabled={cargando}
+            disabled={ocupado}
             onChange={(e) => setContrasena(e.target.value)}
             ></input>
-
-            {error && <p className="ml-3 text-red-400 text-xs mb-2">{error}</p>}
-
             <span 
-            onClick={onFinalizar}
-            disabled={cargando}
+            onClick={onIniciar}
             className="ml-3 mt-10 text-xs text-white cursor-pointer underline">
                 Iniciar sesion
             </span>
             <button
             type="submit"
-            disabled={cargando}
-            className=" w-full ml-3 bg-indigo-500 px-4 py-2 text-white rounded-md hover:bg-indigo-300">
-            {cargando ? "Agregando..." : "Agregar"}
+            disabled={ocupado}
+            className=" w-full ml-3 bg-indigo-500 px-4 py-2 text-white rounded-md hover:bg-indigo-300 disabled:opacity-50">
+            {ocupado ? "Agregando..." : "Agregar"}
             </button>
         </form>
     </div>)
