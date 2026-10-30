@@ -1,4 +1,5 @@
 import { useState, useContext } from "react"
+import { Plus, NotebookPen } from "lucide-react"
 import { TaskContext } from "../../context/TaskContext"
 
 export default function TaskForm() {
@@ -17,25 +18,42 @@ export default function TaskForm() {
     setDescription('')
   }
 
+  const campoClase =
+    "w-full px-4 py-3 bg-slate-900/60 border border-white/10 rounded-xl text-sm text-white " +
+    "placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 " +
+    "focus:border-indigo-500 transition-all duration-200"
+
   return (
-    <div className="max-w-md mx-auto">
-      <form key={"Formulario"} onSubmit={handleSubmit} className="bg-slate-800 p-10 m-4">
-        <h1 className="text-2xl font-bold text-white">Crea tu tarea</h1>
+    <div className="w-full">
+      <form
+        key={"Formulario"}
+        onSubmit={handleSubmit}
+        className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl p-6 sm:p-8 space-y-4"
+      >
+        <div className="flex items-center space-x-3 mb-2">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+            <NotebookPen className="w-5 h-5 text-white" />
+          </div>
+          <h1 className="text-2xl font-bold text-white tracking-tight">Crea tu tarea</h1>
+        </div>
+
         <input placeholder="Escribe tu tarea"
         onChange={(e) => setTitle(e.target.value)}
         value={title}
-        className="bg-slate-300 p-3 w-full mb-2"
+        className={campoClase}
         autoFocus
         />
         <textarea placeholder="Escribe la descripcion de la tarea"
         onChange={(e) => setDescription(e.target.value)}
         value={descripcion}
-        className="bg-slate-300 p-3 w-full mb-2"
+        rows={4}
+        className={`${campoClase} resize-none`}
         ></textarea>
         <button
         type="submit"
-        className="bg-indigo-500 px-4 py-2 text-white rounded-md hover:bg-indigo-300">
-            Agregar
+        className="w-full py-3.5 px-4 flex items-center justify-center space-x-2 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-semibold text-sm rounded-xl shadow-lg shadow-indigo-600/25 active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all duration-200">
+            <Plus className="w-4 h-4" />
+            <span>Agregar</span>
         </button>
       </form>
     </div>
