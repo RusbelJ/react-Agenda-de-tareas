@@ -55,7 +55,6 @@ export function ContextUsuarioProvider({ children }) {
             setUsuario(resultado.user)
             return true
         } catch (err) {
-            console.log(err.code, err.message)
             return false
         }
     }

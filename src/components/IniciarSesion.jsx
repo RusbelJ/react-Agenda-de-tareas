@@ -5,6 +5,7 @@ import { UsuarioAutentificacion } from "../context/ContextUsuarios"
 export function IniciarSesion({ onFinalizar, onRegistrar }) {
   const [correo, setCorreo] = useState("")
   const [contrasena, setContrasena] = useState("")
+  const [errorLogin, setErrorLogin] = useState("")
   const enviandoRef = useRef(false)
 
   const { iniciarSesion, cargando, setCargando } = UsuarioAutentificacion()
@@ -21,7 +22,8 @@ export function IniciarSesion({ onFinalizar, onRegistrar }) {
     try {
       const exito = await iniciarSesion(correo, contrasena)
       if (exito) onFinalizar()
-    } finally {
+      else setErrorLogin("Correo o contraseña incorrectos")
+    }finally {
       enviandoRef.current = false
       setCargando(false)
     }
@@ -47,7 +49,7 @@ export function IniciarSesion({ onFinalizar, onRegistrar }) {
 
       <main className="relative z-10 w-full max-w-5xl grid lg:grid-cols-12 rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-white/75 backdrop-blur-2xl">
 
-        <div className="hidden lg:flex lg:col-span-5 flex-col justify-between relative overflow-hidden p-12 bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950">
+        <div className="lg:flex lg:col-span-5 flex-col justify-between relative overflow-hidden p-12 bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950">
 
           <img
                 src="fondo_iniciar.png"
@@ -92,7 +94,9 @@ export function IniciarSesion({ onFinalizar, onRegistrar }) {
                     placeholder="nombre@correo.com"
                     className={`${inputClase} pl-10 pr-4`}
                     value={correo}
-                    onChange={(e) => setCorreo(e.target.value)}
+                    onChange={(e) => {
+                      setCorreo(e.target.value)
+                    }}
                     disabled={ocupado}
                   />
                 </div>
@@ -116,6 +120,13 @@ export function IniciarSesion({ onFinalizar, onRegistrar }) {
                     onChange={(e) => setContrasena(e.target.value)}
                     disabled={ocupado}
                   />
+
+                  {errorLogin && (
+                    <p className="text-red-500 text-sm mt-1" role="alert">
+                      {errorLogin}
+                    </p>
+                  )}
+
                   <button
                     type="button"
                     onClick={() => setVerContrasena((v) => !v)}
@@ -139,7 +150,7 @@ export function IniciarSesion({ onFinalizar, onRegistrar }) {
           </div>
 
           
-          <div className="hidden lg:block text-center text-xs text-slate-500 mt-8">
+          <div className="text-center text-xs text-slate-500 mt-8">
             ¿No tienes una cuenta?{" "}
             <button type="button" onClick={onRegistrar} className="text-indigo-600 font-semibold hover:underline">
               Regístrate

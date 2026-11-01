@@ -18,7 +18,7 @@ export function Registrar({ onFinalizar, onIniciar }) {
 
 
       <main className="relative z-10 w-full max-w-5xl grid lg:grid-cols-12 rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-white/75 backdrop-blur-2xl">
-        <div className="hidden lg:flex lg:col-span-5 flex-col justify-between relative overflow-hidden p-12 bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950">
+        <div className="lg:flex lg:col-span-5 flex-col justify-between relative overflow-hidden p-12 bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950">
 
             <img
                 src="fondo_registrar.png"
