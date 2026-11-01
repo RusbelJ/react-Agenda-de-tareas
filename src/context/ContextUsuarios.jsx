@@ -26,7 +26,6 @@ export function ContextUsuarioProvider({ children }) {
                 uid: resultado.user.uid,
                 nombreUsuario: nombreUsuario,
                 correo: correo,
-                contrasena: contrasena,
                 creadoEn: new Date()
             })
 

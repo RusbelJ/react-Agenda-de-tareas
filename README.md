@@ -1,19 +1,27 @@
-# React + Vite
+📋 Gestor de Tareas Pendientes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web para registrar usuarios, iniciar sesión y administrar tareas pendientes. Está construida con React, usa Firebase (Authentication y Firestore) como backend y Tailwind CSS con íconos de Lucide para la interfaz.
 
-Currently, two official plugins are available:
+![alt text](image-1.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+✨ Características
+Registro de usuarios con nombre de usuario, correo y contraseña.
 
-## React Compiler
+Inicio y cierre de sesión con Firebase Authentication.
+![alt text](image-2.png)
+Creación de tareas con título y descripción.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+Listado de tareas con contador y estado vacío ("No hay tareas aún").
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+Eliminación de tareas.
 
-## Expanding the ESLint configuration
+Persistencia de datos en Cloud Firestore.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Recuerda la última pantalla visitada mediante localStorage.
+
+Manejo de errores de registro (correo duplicado, contraseña débil, correo inválido).
+
+Protección contra doble envío en los formularios.
+![alt text](image-3.png)
+
+Link de la pagina: https://rusbelj.github.io/react-Agenda-de-tareas/
